@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MarkPulse Studio — Modern Markdown Editor & Document Workbench</title>
+  <meta name="description" content="A feature-rich interactive Markdown editor with live synchronized split-view preview, document analytics, multi-format export, and modern aesthetics." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Highlight.js CSS theme -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-theme" />
+</head>
+<body>
+  <div id="app" class="app-container">
+    <!-- Top Navigation Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="brand">
+          <div class="brand-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13h6"/><path d="M9 17h6"/><path d="M9 9h1"/></svg>
+          </div>
+          <span class="brand-title">MarkPulse<span class="brand-accent">Studio</span></span>
+        </div>
+        <input type="text" id="doc-title" class="doc-title-input" value="Untitled Document.md" aria-label="Document Title" />
+      </div>
+
+      <div class="header-center">
+        <!-- Quick View Controls -->
+        <div class="view-switcher" role="group" aria-label="Layout view mode">
+          <button id="btn-view-split" class="view-btn active" title="Split View (Editor + Preview)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
+            <span>Split</span>
+          </button>
+          <button id="btn-view-editor" class="view-btn" title="Editor Only">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            <span>Edit</span>
+          </button>
+          <button id="btn-view-preview" class="view-btn" title="Preview Only">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>Preview</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- Template Picker Dropdown -->
+        <div class="dropdown">
+          <button id="template-dropdown-btn" class="header-action-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+            <span>Templates</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div id="template-menu" class="dropdown-menu hidden">
+            <button data-template="readme" class="dropdown-item">📄 Project README</button>
+            <button data-template="techspec" class="dropdown-item">📑 Technical Spec</button>
+            <button data-template="releasenotes" class="dropdown-item">🚀 Release Notes</button>
+            <button data-template="meeting" class="dropdown-item">📋 Team Sync & Action Items</button>
+          </div>
+        </div>
+
+        <!-- Export Dropdown -->
+        <div class="dropdown">
+          <button id="export-dropdown-btn" class="header-action-btn primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Export</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div id="export-menu" class="dropdown-menu hidden">
+            <button id="export-md" class="dropdown-item">💾 Download Markdown (.md)</button>
+            <button id="export-html" class="dropdown-item">🌐 Download HTML Document (.html)</button>
+            <button id="export-pdf" class="dropdown-item">🖨️ Print / Save as PDF</button>
+            <button id="copy-html" class="dropdown-item">📋 Copy HTML to Clipboard</button>
+          </div>
+        </div>
+
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="icon-btn" title="Toggle Theme (Dark/Light)">
+          <svg id="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg id="sun-icon" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+
+        <!-- Toggle Stats Drawer -->
+        <button id="toggle-sidebar" class="icon-btn active" title="Toggle Document Analytics Sidebar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Markdown Formatting Toolbar -->
+    <nav class="editor-toolbar">
+      <div class="toolbar-group">
+        <button class="tb-btn" data-action="bold" title="Bold (Ctrl+B)"><b>B</b></button>
+        <button class="tb-btn" data-action="italic" title="Italic (Ctrl+I)"><i>I</i></button>
+        <button class="tb-btn" data-action="strike" title="Strikethrough"><s>S</s></button>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-group">
+        <button class="tb-btn" data-action="h1" title="Heading 1">H1</button>
+        <button class="tb-btn" data-action="h2" title="Heading 2">H2</button>
+        <button class="tb-btn" data-action="h3" title="Heading 3">H3</button>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-group">
+        <button class="tb-btn" data-action="ul" title="Unordered List">• List</button>
+        <button class="tb-btn" data-action="ol" title="Ordered List">1. List</button>
+        <button class="tb-btn" data-action="task" title="Task Checklist">☑ Task</button>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-group">
+        <button class="tb-btn" data-action="quote" title="Blockquote">” Quote</button>
+        <button class="tb-btn" data-action="code" title="Inline Code">&lt;/&gt;</button>
+        <button class="tb-btn" data-action="codeblock" title="Code Block">``` Code</button>
+        <button class="tb-btn" data-action="table" title="Insert Table">⊞ Table</button>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-group">
+        <button class="tb-btn" data-action="link" title="Insert Link">🔗 Link</button>
+        <button class="tb-btn" data-action="image" title="Insert Image">🖼️ Image</button>
+        <button class="tb-btn" data-action="hr" title="Horizontal Rule">― Line</button>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-group">
+        <button class="tb-btn callout-btn" data-action="callout-note" title="Insert Note Callout">💡 Note</button>
+        <button class="tb-btn callout-btn" data-action="callout-warning" title="Insert Warning Callout">⚠️ Warn</button>
+      </div>
+      <div class="toolbar-spacer"></div>
+      <div class="toolbar-group">
+        <button id="btn-clear" class="tb-btn danger" title="Clear Editor">🗑️ Clear</button>
+      </div>
+    </nav>
+
+    <!-- Main Content Workspace (Split Screen) -->
+    <main class="workspace-main">
+      <div id="pane-editor" class="workspace-pane pane-editor">
+        <div class="pane-header">
+          <span class="pane-label">EDITOR</span>
+          <span class="pane-badge">GFM Markdown</span>
+        </div>
+        <div class="editor-wrapper">
+          <textarea id="editor-textarea" class="editor-textarea" spellcheck="false" placeholder="Type or paste your Markdown content here..."></textarea>
+        </div>
+      </div>
+
+      <div id="pane-divider" class="pane-divider" title="Drag to resize panels"></div>
+
+      <div id="pane-preview" class="workspace-pane pane-preview">
+        <div class="pane-header">
+          <span class="pane-label">LIVE PREVIEW</span>
+          <span class="pane-badge success">HTML Rendered</span>
+        </div>
+        <div id="preview-content" class="markdown-body preview-content">
+          <!-- Rendered HTML will be injected here -->
+        </div>
+      </div>
+
+      <!-- Right Analytics & TOC Sidebar Drawer -->
+      <aside id="sidebar-analytics" class="sidebar-analytics">
+        <div class="sidebar-header">
+          <h3>Document Analytics</h3>
+          <button id="close-sidebar-btn" class="icon-btn-sm" aria-label="Close sidebar">✕</button>
+        </div>
+
+        <div class="sidebar-content">
+          <!-- Stat Grid Cards -->
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-value" id="stat-words">0</div>
+              <div class="stat-label">Words</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="stat-chars">0</div>
+              <div class="stat-label">Characters</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="stat-readtime">0 min</div>
+              <div class="stat-label">Reading Time</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="stat-lines">0</div>
+              <div class="stat-label">Lines</div>
+            </div>
+          </div>
+
+          <!-- Readability & Structural Insights -->
+          <div class="insight-section">
+            <h4 class="insight-title">Document Quality Metrics</h4>
+            <div class="insight-row">
+              <span class="insight-label">Paragraphs</span>
+              <span class="insight-val" id="stat-paragraphs">0</span>
+            </div>
+            <div class="insight-row">
+              <span class="insight-label">Sentences</span>
+              <span class="insight-val" id="stat-sentences">0</span>
+            </div>
+            <div class="insight-row">
+              <span class="insight-label">Avg. Sentence Length</span>
+              <span class="insight-val" id="stat-avg-sentence">0 words</span>
+            </div>
+            <div class="insight-row">
+              <span class="insight-label">Readability Level</span>
+              <span class="insight-badge" id="stat-readability">Easy</span>
+            </div>
+          </div>
+
+          <!-- Document Outline / Table of Contents -->
+          <div class="insight-section">
+            <h4 class="insight-title">Document Outline (TOC)</h4>
+            <nav id="toc-container" class="toc-container">
+              <span class="toc-empty">No headings found in document.</span>
+            </nav>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Bottom Status Bar -->
+    <footer class="app-statusbar">
+      <div class="status-left">
+        <span class="status-item" id="status-autosave">
+          <span class="dot green"></span> Autosaved to LocalStorage
+        </span>
+      </div>
+      <div class="status-right">
+        <span class="status-item" id="status-cursor">Line 1, Col 1</span>
+        <span class="status-divider"></span>
+        <span class="status-item" id="status-selection">0 selected</span>
+        <span class="status-divider"></span>
+        <span class="status-item">UTF-8</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Notification Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
