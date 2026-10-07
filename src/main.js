@@ -85,6 +85,7 @@ const shortcutsModal = document.getElementById('shortcuts-modal');
 const closeShortcutsModal = document.getElementById('close-shortcuts-modal');
 const modalBackdrop = document.getElementById('modal-backdrop');
 const btnModalDone = document.getElementById('btn-modal-done');
+const btnCopyMarkdown = document.getElementById('btn-copy-markdown');
 
 let isFocusMode = false;
 
@@ -294,6 +295,11 @@ function setupEventListeners() {
   btnExportHtml.addEventListener('click', exportHTML);
   btnExportPdf.addEventListener('click', exportPDF);
   btnCopyHtml.addEventListener('click', copyHTMLToClipboard);
+
+  // Quick Copy raw Markdown button in editor pane header
+  if (btnCopyMarkdown) {
+    btnCopyMarkdown.addEventListener('click', copyRawMarkdown);
+  }
 
   // Focus mode button triggers
   if (btnFocusMode) {
@@ -579,6 +585,22 @@ function copyHTMLToClipboard() {
     showToast('Copied HTML to clipboard!');
   }).catch(err => {
     showToast('Failed to copy HTML');
+  });
+}
+
+function copyRawMarkdown() {
+  const content = editorTextarea.value;
+  if (!content) {
+    showToast('Editor is empty');
+    return;
+  }
+  navigator.clipboard.writeText(content).then(() => {
+    showToast('Copied raw Markdown to clipboard! 📋');
+  }).catch(() => {
+    // Fallback if clipboard API is restricted
+    editorTextarea.select();
+    document.execCommand('copy');
+    showToast('Copied raw Markdown to clipboard! 📋');
   });
 }
 
