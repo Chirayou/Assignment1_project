@@ -48,7 +48,11 @@ It is designed to empower technical writers, developers, and content creators wi
 - **Comprehensive Keymap**: Clear categorization of text formatting keys (`Ctrl+B`, `Ctrl+I`, `Ctrl+E`, `Ctrl+K`, `Ctrl+1/2/3`, `Ctrl+Shift+Q`) and workspace controls (`F11`, `Esc`, `Tab`, `Ctrl+P`).
 - **Native Editor Key Bindings**: All listed formatting shortcuts are fully bound and operational inside the Markdown editor.
 
-### 5. Multi-Format Export, Templates & Local Persistence
+### 5. Quick Copy Raw Markdown to Clipboard
+- **Instant Pane Header Action**: Dedicated "Copy Markdown" button in the editor pane header for 1-click clipboard copying.
+- **Visual Feedback**: Non-intrusive toast notification verifying successful clipboard copy with fallback support.
+
+### 6. Multi-Format Export, Templates & Local Persistence
 - **Multi-Format Export**: Export your document as a raw Markdown file (`.md`), a standalone styled HTML file (`.html`), or print-ready PDF layout (`window.print()`).
 - **Template Library**: Instant loadable starter templates for Technical Specs, Project READMEs, Release Notes, and Team Sync agendas.
 - **LocalStorage Auto-Save**: Automatic background draft saving to `localStorage` with instant session restoration upon page reloads.

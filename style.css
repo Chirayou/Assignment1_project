@@ -394,6 +394,37 @@ body {
   justify-content: space-between;
 }
 
+.pane-header-left, .pane-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pane-action-btn {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+
+.pane-action-btn:hover {
+  background: var(--bg-surface-hover);
+  color: var(--text-heading);
+  border-color: var(--border-color);
+}
+
+.pane-action-btn:active {
+  transform: scale(0.96);
+}
+
 .pane-label {
   font-size: 0.72rem;
   font-weight: 700;
