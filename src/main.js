@@ -77,6 +77,10 @@ const btnExportHtml = document.getElementById('export-html');
 const btnExportPdf = document.getElementById('export-pdf');
 const btnCopyHtml = document.getElementById('copy-html');
 const btnClear = document.getElementById('btn-clear');
+const btnFocusMode = document.getElementById('btn-focus-mode');
+const floatingExitFocus = document.getElementById('floating-exit-focus');
+
+let isFocusMode = false;
 
 const STORAGE_KEY_CONTENT = 'markpulse_content';
 const STORAGE_KEY_TITLE = 'markpulse_title';
@@ -285,6 +289,43 @@ function setupEventListeners() {
   btnExportPdf.addEventListener('click', exportPDF);
   btnCopyHtml.addEventListener('click', copyHTMLToClipboard);
 
+  // Focus mode button triggers
+  if (btnFocusMode) {
+    btnFocusMode.addEventListener('click', () => toggleFocusMode());
+  }
+  if (floatingExitFocus) {
+    floatingExitFocus.addEventListener('click', () => toggleFocusMode(false));
+  }
+
+  // Focus mode keyboard shortcuts: Esc to exit, F11 or Cmd/Ctrl+Shift+F to toggle
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isFocusMode) {
+      e.preventDefault();
+      toggleFocusMode(false);
+    } else if (e.key === 'F11' || ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'F' || e.key === 'f'))) {
+      e.preventDefault();
+      toggleFocusMode();
+    }
+  });
+
+  // Sync if browser fullscreen is exited externally
+  document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement && isFocusMode) {
+      toggleFocusMode(false);
+    }
+  });
+
+  // Tab key indentation support in textarea
+  editorTextarea.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const start = editorTextarea.selectionStart;
+      const end = editorTextarea.selectionEnd;
+      editorTextarea.setRangeText('  ', start, end, 'end');
+      updateAll();
+    }
+  });
+
   // Pane resizing drag handle
   setupPaneResizer();
 }
@@ -483,6 +524,44 @@ function showToast(message) {
     toast.style.transition = 'opacity 0.3s ease';
     setTimeout(() => toast.remove(), 300);
   }, 2500);
+}
+
+// Toggle Distraction-Free Fullscreen Focus Mode
+function toggleFocusMode(forceState) {
+  isFocusMode = typeof forceState === 'boolean' ? forceState : !isFocusMode;
+
+  const appContainer = document.getElementById('app');
+  document.body.classList.toggle('focus-mode', isFocusMode);
+  if (appContainer) appContainer.classList.toggle('focus-mode', isFocusMode);
+  if (btnFocusMode) btnFocusMode.classList.toggle('active', isFocusMode);
+
+  // Update button icons & labels
+  if (btnFocusMode) {
+    const iconEnter = btnFocusMode.querySelector('.focus-icon-enter');
+    const iconExit = btnFocusMode.querySelector('.focus-icon-exit');
+    const label = btnFocusMode.querySelector('.focus-btn-label');
+
+    if (iconEnter) iconEnter.classList.toggle('hidden', isFocusMode);
+    if (iconExit) iconExit.classList.toggle('hidden', !isFocusMode);
+    if (label) label.textContent = isFocusMode ? 'Exit' : 'Focus';
+  }
+
+  // Floating exit button visibility
+  if (floatingExitFocus) {
+    floatingExitFocus.classList.toggle('hidden', !isFocusMode);
+  }
+
+  if (isFocusMode) {
+    if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    }
+    showToast('Distraction-Free Focus Mode ON (Esc to exit)');
+  } else {
+    if (document.fullscreenElement && document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    }
+    showToast('Exited Focus Mode');
+  }
 }
 
 // Pane Splitter Resizer

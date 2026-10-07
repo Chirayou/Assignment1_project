@@ -38,7 +38,12 @@ It is designed to empower technical writers, developers, and content creators wi
 - **Real-Time Metrics**: Instant tracking of word count, character count, total line count, and estimated reading time.
 - **Readability & Sentence Insights**: Detailed breakdown of paragraph counts, sentence counts, average sentence length, and reading difficulty scoring.
 
-### 3. Multi-Format Export, Templates & Local Persistence
+### 3. Distraction-Free Fullscreen Focus Mode
+- **Zero-Clutter Writing Canvas**: One-click toolbar toggle to enter deep focus mode, automatically hiding header navigation and analytics sidebars.
+- **Enhanced Typography & Padding**: Automatically expands editor margins and line spacing for optimal reading and writing comfort.
+- **Quick Keyboard Shortcuts & Exit Pill**: Seamlessly toggle via toolbar button, `F11`, or `Cmd/Ctrl+Shift+F`, and exit effortlessly with `Esc` or a floating exit button.
+
+### 4. Multi-Format Export, Templates & Local Persistence
 - **Multi-Format Export**: Export your document as a raw Markdown file (`.md`), a standalone styled HTML file (`.html`), or print-ready PDF layout (`window.print()`).
 - **Template Library**: Instant loadable starter templates for Technical Specs, Project READMEs, Release Notes, and Team Sync agendas.
 - **LocalStorage Auto-Save**: Automatic background draft saving to `localStorage` with instant session restoration upon page reloads.
