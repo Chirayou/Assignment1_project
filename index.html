@@ -85,6 +85,11 @@
         <button id="toggle-sidebar" class="icon-btn active" title="Toggle Document Analytics Sidebar">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
         </button>
+
+        <!-- Keyboard Shortcuts Help Modal Button -->
+        <button id="btn-shortcuts-help" class="icon-btn" title="Keyboard Shortcuts Reference (Ctrl+/)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </button>
       </div>
     </header>
 
@@ -131,6 +136,10 @@
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="focus-icon-enter"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="focus-icon-exit hidden"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>
           <span class="focus-btn-label">Focus</span>
+        </button>
+        <button id="btn-shortcuts-tb" class="tb-btn" title="Keyboard Shortcuts Reference (Ctrl+/)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>Shortcuts</span>
         </button>
         <button id="btn-clear" class="tb-btn danger" title="Clear Editor">🗑️ Clear</button>
       </div>
@@ -245,6 +254,89 @@
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>
     <span>Exit Focus (Esc)</span>
   </button>
+
+  <!-- Keyboard Shortcuts Modal Dialog -->
+  <div id="shortcuts-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-shortcuts-title">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-wrapper">
+          <div class="modal-title-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <h3 id="modal-shortcuts-title">Keyboard Shortcuts</h3>
+        </div>
+        <button id="close-shortcuts-modal" class="icon-btn-sm" aria-label="Close shortcuts modal">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="shortcut-categories">
+          <!-- Text Formatting -->
+          <div class="shortcut-group">
+            <h4 class="shortcut-category-title">Text Formatting</h4>
+            <div class="shortcut-table">
+              <div class="shortcut-row">
+                <span class="shortcut-desc">Bold Text</span>
+                <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>B</kbd></span>
+              </div>
+              <div class="shortcut-row">
+                <span class="shortcut-desc">Italic Text</span>
+                <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>I</kbd></span>
+              </div>
+              <div class="shortcut-row">
+                <span class="shortcut-desc">Inline Code</span>
+                <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>E</kbd></span>
+              </div>
+              <div class="shortcut-row">
+                <span class="shortcut-desc">Insert Hyperlink</span>
+                <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
+              </div>
+              <div class="shortcut-row">
+                <span class="shortcut-desc">Headings (H1, H2, H3)</span>
+                <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd></span>
+              </div>
+              <div class="shortcut-row">
+                <span class="shortcut-desc">Insert Blockquote</span>
+                <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Q</kbd></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Editor & Workbench -->
+          <div class="shortcut-group">
+            <h4 class="shortcut-category-title">Editor & Workbench</h4>
+            <div class="shortcut-table">
+              <div class="shortcut-row">
+                <span class="shortcut-desc">Toggle Shortcuts Reference</span>
+                <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>/</kbd></span>
+              </div>
+              <div class="shortcut-row">
+                <span class="shortcut-desc">Distraction-Free Focus Mode</span>
+                <span class="shortcut-keys"><kbd>F11</kbd> or <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd></span>
+              </div>
+              <div class="shortcut-row">
+                <span class="shortcut-desc">Exit Focus Mode / Close Modal</span>
+                <span class="shortcut-keys"><kbd>Esc</kbd></span>
+              </div>
+              <div class="shortcut-row">
+                <span class="shortcut-desc">Indent Line / Tab Space</span>
+                <span class="shortcut-keys"><kbd>Tab</kbd></span>
+              </div>
+              <div class="shortcut-row">
+                <span class="shortcut-desc">Print / Save PDF</span>
+                <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>P</kbd></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <span class="modal-hint">Mac users can use <kbd>Cmd (⌘)</kbd> in place of <kbd>Ctrl</kbd>.</span>
+        <button id="btn-modal-done" class="header-action-btn primary">Got it</button>
+      </div>
+    </div>
+  </div>
 
   <script type="module" src="/src/main.js"></script>
 </body>

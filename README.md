@@ -43,7 +43,12 @@ It is designed to empower technical writers, developers, and content creators wi
 - **Enhanced Typography & Padding**: Automatically expands editor margins and line spacing for optimal reading and writing comfort.
 - **Quick Keyboard Shortcuts & Exit Pill**: Seamlessly toggle via toolbar button, `F11`, or `Cmd/Ctrl+Shift+F`, and exit effortlessly with `Esc` or a floating exit button.
 
-### 4. Multi-Format Export, Templates & Local Persistence
+### 4. Keyboard Shortcuts Reference Dialog
+- **Quick Reference Popup**: Triggerable via the top navigation `?` button, toolbar `Shortcuts` button, or `Ctrl+/` (`Cmd+/` on Mac).
+- **Comprehensive Keymap**: Clear categorization of text formatting keys (`Ctrl+B`, `Ctrl+I`, `Ctrl+E`, `Ctrl+K`, `Ctrl+1/2/3`, `Ctrl+Shift+Q`) and workspace controls (`F11`, `Esc`, `Tab`, `Ctrl+P`).
+- **Native Editor Key Bindings**: All listed formatting shortcuts are fully bound and operational inside the Markdown editor.
+
+### 5. Multi-Format Export, Templates & Local Persistence
 - **Multi-Format Export**: Export your document as a raw Markdown file (`.md`), a standalone styled HTML file (`.html`), or print-ready PDF layout (`window.print()`).
 - **Template Library**: Instant loadable starter templates for Technical Specs, Project READMEs, Release Notes, and Team Sync agendas.
 - **LocalStorage Auto-Save**: Automatic background draft saving to `localStorage` with instant session restoration upon page reloads.
