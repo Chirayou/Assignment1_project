@@ -79,6 +79,12 @@ const btnCopyHtml = document.getElementById('copy-html');
 const btnClear = document.getElementById('btn-clear');
 const btnFocusMode = document.getElementById('btn-focus-mode');
 const floatingExitFocus = document.getElementById('floating-exit-focus');
+const btnShortcutsHelp = document.getElementById('btn-shortcuts-help');
+const btnShortcutsTb = document.getElementById('btn-shortcuts-tb');
+const shortcutsModal = document.getElementById('shortcuts-modal');
+const closeShortcutsModal = document.getElementById('close-shortcuts-modal');
+const modalBackdrop = document.getElementById('modal-backdrop');
+const btnModalDone = document.getElementById('btn-modal-done');
 
 let isFocusMode = false;
 
@@ -297,14 +303,55 @@ function setupEventListeners() {
     floatingExitFocus.addEventListener('click', () => toggleFocusMode(false));
   }
 
-  // Focus mode keyboard shortcuts: Esc to exit, F11 or Cmd/Ctrl+Shift+F to toggle
+  // Shortcuts modal event listeners
+  if (btnShortcutsHelp) {
+    btnShortcutsHelp.addEventListener('click', openShortcutsModal);
+  }
+  if (btnShortcutsTb) {
+    btnShortcutsTb.addEventListener('click', openShortcutsModal);
+  }
+  if (closeShortcutsModal) {
+    closeShortcutsModal.addEventListener('click', closeShortcutsModalFunc);
+  }
+  if (modalBackdrop) {
+    modalBackdrop.addEventListener('click', closeShortcutsModalFunc);
+  }
+  if (btnModalDone) {
+    btnModalDone.addEventListener('click', closeShortcutsModalFunc);
+  }
+
+  // Global keyboard shortcuts (Ctrl+/, Escape, Focus mode)
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && isFocusMode) {
+    // 1. Toggle Shortcuts Modal: Ctrl+/ or Cmd+/
+    if ((e.ctrlKey || e.metaKey) && (e.key === '/' || e.key === '?')) {
       e.preventDefault();
-      toggleFocusMode(false);
-    } else if (e.key === 'F11' || ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'F' || e.key === 'f'))) {
+      if (shortcutsModal && !shortcutsModal.classList.contains('hidden')) {
+        closeShortcutsModalFunc();
+      } else {
+        openShortcutsModal();
+      }
+      return;
+    }
+
+    // 2. Escape key: Close modal or exit focus mode
+    if (e.key === 'Escape') {
+      if (shortcutsModal && !shortcutsModal.classList.contains('hidden')) {
+        e.preventDefault();
+        closeShortcutsModalFunc();
+        return;
+      }
+      if (isFocusMode) {
+        e.preventDefault();
+        toggleFocusMode(false);
+        return;
+      }
+    }
+
+    // 3. Focus mode shortcut: F11 or Cmd/Ctrl+Shift+F
+    if (e.key === 'F11' || ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'F' || e.key === 'f'))) {
       e.preventDefault();
       toggleFocusMode();
+      return;
     }
   });
 
@@ -315,14 +362,47 @@ function setupEventListeners() {
     }
   });
 
-  // Tab key indentation support in textarea
+  // Editor formatting keyboard shortcuts and Tab indentation
   editorTextarea.addEventListener('keydown', (e) => {
+    // Tab indentation
     if (e.key === 'Tab') {
       e.preventDefault();
       const start = editorTextarea.selectionStart;
       const end = editorTextarea.selectionEnd;
       editorTextarea.setRangeText('  ', start, end, 'end');
       updateAll();
+      return;
+    }
+
+    const isCmdOrCtrl = e.ctrlKey || e.metaKey;
+    if (isCmdOrCtrl && !e.shiftKey && !e.altKey) {
+      if (e.key === 'b' || e.key === 'B') {
+        e.preventDefault();
+        handleToolbarAction('bold');
+      } else if (e.key === 'i' || e.key === 'I') {
+        e.preventDefault();
+        handleToolbarAction('italic');
+      } else if (e.key === 'e' || e.key === 'E') {
+        e.preventDefault();
+        handleToolbarAction('code');
+      } else if (e.key === 'k' || e.key === 'K') {
+        e.preventDefault();
+        handleToolbarAction('link');
+      } else if (e.key === '1') {
+        e.preventDefault();
+        handleToolbarAction('h1');
+      } else if (e.key === '2') {
+        e.preventDefault();
+        handleToolbarAction('h2');
+      } else if (e.key === '3') {
+        e.preventDefault();
+        handleToolbarAction('h3');
+      }
+    } else if (isCmdOrCtrl && e.shiftKey) {
+      if (e.key === 'q' || e.key === 'Q') {
+        e.preventDefault();
+        handleToolbarAction('quote');
+      }
     }
   });
 
@@ -509,6 +589,19 @@ function downloadBlob(blob, filename) {
   a.download = filename;
   a.click();
   URL.revokeObjectURL(url);
+}
+
+// Modal Open & Close Helpers
+function openShortcutsModal() {
+  if (shortcutsModal) {
+    shortcutsModal.classList.remove('hidden');
+  }
+}
+
+function closeShortcutsModalFunc() {
+  if (shortcutsModal) {
+    shortcutsModal.classList.add('hidden');
+  }
 }
 
 // Toast Notification Popup
