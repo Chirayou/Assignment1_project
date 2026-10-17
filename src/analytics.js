@@ -29,7 +29,7 @@ export function calculateAnalytics(text) {
   const chars = text.length;
 
   // Estimated Reading Time (200 words per minute)
-  const readTimeMin = Math.ceil(words / 200);
+  const readTimeMin = Math.floor(words / 200);
 
   // Line Count
   const lines = text.split('\n').length;
