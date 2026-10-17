@@ -90,10 +90,25 @@ It is designed to empower technical writers, developers, and content creators wi
    ```
    The compiled production output will be generated in the `dist/` directory.
 
-5. **Preview production build**:
+6. **Run Automated Unit Tests**:
    ```bash
-   npm run preview
+   npm test
    ```
+
+7. **Measure Line Code Coverage**:
+   ```bash
+   npm run test:coverage
+   ```
+   Measures line coverage for the `calculateAnalytics` method using Vitest's V8 coverage provider (achieving 100% line coverage).
+
+---
+
+## 🧪 Automated Testing & Code Coverage
+
+- **Tested Method**: [`calculateAnalytics(text)`](file:///Users/chirayou/Desktop/NDSU/1st%20semester/Software%20development%20process%20/Assignment1_project/src/analytics.js) in `src/analytics.js`.
+- **Testing Framework**: [Vitest](https://vitest.dev/) with [@vitest/coverage-v8](https://vitest.dev/guide/coverage.html).
+- **Test Suite**: [`tests/analytics.test.js`](file:///Users/chirayou/Desktop/NDSU/1st%20semester/Software%20development%20process%20/Assignment1_project/tests/analytics.test.js) (12 test cases covering edge cases, word/character/line counts, WPM reading times, sentence boundaries, and Easy/Moderate/Advanced readability classification).
+- **Line Coverage**: **100% line coverage** (exceeding the 70% threshold).
 
 ---
 
@@ -103,13 +118,17 @@ It is designed to empower technical writers, developers, and content creators wi
 Assignment1_project/
 ├── index.html            # Main application UI structure & layout
 ├── style.css             # Design system, CSS variables, dark/light themes & GFM styles
-├── package.json          # Node dependencies and build scripts
+├── vitest.config.js      # Vitest and V8 coverage configuration
+├── package.json          # Node dependencies, build & test scripts
 ├── README.md             # Project documentation & reference details
-└── src/
-    ├── main.js           # Marked parsing, analytics engine, event listeners & exports
-    └── templates.js      # Built-in document starter templates
+├── src/
+│   ├── analytics.js      # Core document quality and readability calculation engine
+│   ├── main.js           # Markdown parsing, UI event listeners & exports
+│   └── templates.js      # Built-in document starter templates
+└── tests/
+    └── analytics.test.js # Automated unit tests for calculateAnalytics
 ```
 
 ---
 
-*Developed using Google Antigravity & AI Tools for Assignment 1.*
+*Developed using Google Antigravity & AI Tools.*

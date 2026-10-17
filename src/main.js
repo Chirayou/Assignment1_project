@@ -1,6 +1,7 @@
 import { Marked } from 'marked';
 import hljs from 'highlight.js';
 import { TEMPLATES } from './templates.js';
+import { calculateAnalytics } from './analytics.js';
 
 // Initialize Marked with Highlight.js code highlighting
 const marked = new Marked({
@@ -140,40 +141,17 @@ function updateAll() {
 
 // Calculate Document Analytics
 function updateAnalytics(text) {
-  const trimmed = text.trim();
-  
-  // Word Count
-  const words = trimmed ? trimmed.split(/\s+/).filter(Boolean).length : 0;
-  statWords.textContent = words.toLocaleString();
+  const metrics = calculateAnalytics(text);
 
-  // Character Count
-  statChars.textContent = text.length.toLocaleString();
-
-  // Estimated Reading Time (200 wpm)
-  const readTimeMin = Math.ceil(words / 200);
-  statReadtime.textContent = `${readTimeMin} min`;
-
-  // Line Count
-  const lines = text.split('\n').length;
-  statLines.textContent = lines.toLocaleString();
-
-  // Paragraph Count
-  const paragraphs = text.split(/\n\s*\n/).filter(p => p.trim().length > 0).length;
-  statParagraphs.textContent = paragraphs;
-
-  // Sentence Count
-  const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
-  statSentences.textContent = sentences;
-
-  // Avg Sentence Length
-  const avgSentence = sentences > 0 ? (words / sentences).toFixed(1) : 0;
-  statAvgSentence.textContent = `${avgSentence} words`;
-
-  // Readability Classification
-  let readability = 'Easy';
-  if (avgSentence > 20) readability = 'Advanced';
-  else if (avgSentence > 14) readability = 'Moderate';
-  statReadability.textContent = readability;
+  statWords.textContent = metrics.words.toLocaleString();
+  statChars.textContent = metrics.chars.toLocaleString();
+  statReadtime.textContent = `${metrics.readTimeMin} min`;
+  statLines.textContent = metrics.lines.toLocaleString();
+  statParagraphs.textContent = metrics.paragraphs;
+  statSentences.textContent = metrics.sentences;
+  statAvgSentence.textContent = `${metrics.avgSentence} words`;
+  statReadability.textContent = metrics.readability;
+  return metrics;
 }
 
 // Generate Table of Contents from rendered headings
