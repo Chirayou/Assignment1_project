@@ -3,4 +3,7 @@ dist/
 coverage/
 .DS_Store
 *.log
+coverage_screenshot.png
+coverage_terminal.html
+
 
